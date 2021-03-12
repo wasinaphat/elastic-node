@@ -145,16 +145,17 @@ router.delete("/products/:id", (req, res) => {
 });
 
 router.get("/products", (req, res) => {
+  console.log(req.query.product)
   let query = {
     index: "products",
-    q: req.query.product,
+    q: req.query.product ? req.query.product: null,
   };
   //   if (req.query.product) query.q = `*${req.query.product}*`;
   // console.log("QUERY PARAMS",req.query.product)
   elasticClient
     .search(query)
     .then((resp) => {
-      console.log(resp.hits.hits.length);
+      // console.log(resp.hits.hits.length);
       return res.status(200).json({
         products: resp.hits.hits,
       });
